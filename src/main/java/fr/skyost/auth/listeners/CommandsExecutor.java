@@ -43,6 +43,11 @@ public class CommandsExecutor implements CommandExecutor {
 			return true;
 		}
 		try {
+                        if(cmd.getName().equalsIgnoreCase("getbooks")) {
+                            for (ItemStack item : Utils.getWrittenBooks(player, plugin)) {
+                                player.getInventory().addItem(item);
+                            }
+                        }
 			if(cmd.getName().equalsIgnoreCase("login")) {
 				if(args.length == 1) {
 					if(AuthPlugin.data.get(playername) != null) {

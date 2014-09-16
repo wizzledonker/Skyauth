@@ -125,6 +125,7 @@ public class AuthPlugin extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new EventsListener(), this);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new SkyauthTasks(), 0, config.ReloadDelay * 20);
 		CommandExecutor executor = new CommandsExecutor(this);
+                this.getCommand("getbooks").setExecutor(executor);
 		this.getCommand("login").setExecutor(executor);
 		this.getCommand("logout").setExecutor(executor);
 		this.getCommand("register").setExecutor(executor);

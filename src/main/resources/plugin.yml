@@ -20,6 +20,10 @@ version: 0.7.2
 author: Skyost
 website: http://dev.bukkit.org/bukkit-plugins/skyauth/
 commands:
+ getbooks:
+   aliases: [books, help]
+   description: Get some books to help
+   usage: Type /getbooks to get some helpful books
  login:
   aliases: [log-in]
   description: Login on this server.
