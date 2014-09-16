@@ -18,6 +18,11 @@ import org.bukkit.inventory.ItemStack;
 
 import fr.skyost.auth.AuthPlugin;
 import fr.skyost.auth.utils.Utils;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 
 public class EventsListener implements Listener {
 
@@ -83,6 +88,67 @@ public class EventsListener implements Listener {
 			}
 		}
 	}
+        
+        @EventHandler(priority = EventPriority.HIGHEST)
+	private final void onPlayerOpenInventory(final InventoryOpenEvent event) {
+		final Player player = (Player) event.getPlayer();
+		if(!AuthPlugin.isLogged(player)) {
+			if(!player.hasPermission("skyauth.bypass")) {
+				player.sendMessage(AuthPlugin.messages.Messages_1);
+				event.setCancelled(true);
+			}
+		}
+	}
+        
+        @EventHandler(priority = EventPriority.HIGHEST)
+	private final void onPlayerInventoryClick(final InventoryClickEvent event) {
+		final Player player = (Player) event.getWhoClicked();
+		if(!AuthPlugin.isLogged(player)) {
+			if(!player.hasPermission("skyauth.bypass")) {
+				player.sendMessage(AuthPlugin.messages.Messages_1);
+				event.setCancelled(true);
+			}
+		}
+	}
+        
+        @EventHandler(priority = EventPriority.HIGHEST)
+	private final void onFoodLevelChange(final FoodLevelChangeEvent event) {
+		final Player player = (Player) event.getEntity();
+		if(!AuthPlugin.isLogged(player)) {
+			if(!player.hasPermission("skyauth.bypass")) {
+				player.sendMessage(AuthPlugin.messages.Messages_1);
+				event.setCancelled(true);
+			}
+		}
+	}
+        
+        @EventHandler(priority = EventPriority.HIGHEST)
+	private final void onEntityDamage(final EntityDamageEvent event) {
+                if (!(event.getEntity() instanceof Player)) {
+                    return;
+                }
+		final Player player = (Player) event.getEntity();
+		if(!AuthPlugin.isLogged(player)) {
+			if(!player.hasPermission("skyauth.bypass")) {
+				player.sendMessage(AuthPlugin.messages.Messages_1);
+				event.setCancelled(true);
+			}
+		}
+	}
+        
+        @EventHandler(priority = EventPriority.HIGHEST)
+        private final void entityRegainHealthEvent(final EntityRegainHealthEvent event) {
+            if (!(event.getEntity() instanceof Player)) {
+                return;
+            }
+            final Player player = (Player) event.getEntity();
+            if(!AuthPlugin.isLogged(player)) {
+                    if(!player.hasPermission("skyauth.bypass")) {
+                            player.sendMessage(AuthPlugin.messages.Messages_1);
+                            event.setCancelled(true);
+                    }
+            }
+        }
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	private final void onPlayerJoin(final PlayerJoinEvent event) {
@@ -96,12 +162,7 @@ public class EventsListener implements Listener {
 					arrayData.add(1, player.getGameMode().name());
 					arrayData.add(2, Utils.InventoryToString(player.getInventory()));
 					player.teleport(player.getWorld().getSpawnLocation());
-					player.setGameMode(GameMode.CREATIVE);
-					for(ItemStack ie : player.getInventory().getContents()) {
-	    				if(ie != null) {
-	    					player.getInventory().removeItem(ie);
-	    				}
-	    			}
+					player.setGameMode(GameMode.SURVIVAL);
 					AuthPlugin.temp.put(player.getName(), arrayData);
 				}
 			}
@@ -120,12 +181,7 @@ public class EventsListener implements Listener {
 				arrayData.add(1, player.getGameMode().name());
 				arrayData.add(2, Utils.InventoryToString(player.getInventory()));
 				player.teleport(player.getWorld().getSpawnLocation());
-				player.setGameMode(GameMode.CREATIVE);
-				for(ItemStack ie : player.getInventory().getContents()) {
-    				if(ie != null) {
-    					player.getInventory().removeItem(ie);
-    				}
-    			}
+				player.setGameMode(GameMode.SURVIVAL);
 				AuthPlugin.temp.put(player.getName(), arrayData);
 				player.sendMessage(message);
 			}

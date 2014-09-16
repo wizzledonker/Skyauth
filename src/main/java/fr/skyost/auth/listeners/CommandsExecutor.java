@@ -17,6 +17,7 @@ import fr.skyost.auth.AuthPlugin;
 import fr.skyost.auth.tasks.ForgiveTask;
 import fr.skyost.auth.tasks.SessionsTask;
 import fr.skyost.auth.utils.Utils;
+import org.bukkit.event.inventory.InventoryType;
 
 public class CommandsExecutor implements CommandExecutor {
         private AuthPlugin plugin;
@@ -52,12 +53,7 @@ public class CommandsExecutor implements CommandExecutor {
 								if(AuthPlugin.temp.get(playername) != null) {
 									player.teleport(Utils.StringToLocation(AuthPlugin.temp.get(playername).get(0)));
 									player.setGameMode(GameMode.valueOf(AuthPlugin.temp.get(playername).get(1)));
-									Inventory inv = Utils.StringToInventory(AuthPlugin.temp.get(playername).get(2));
-									for(ItemStack ie : player.getInventory().getContents()) {
-						    			if(ie != null) {
-						    				player.getInventory().removeItem(ie);
-						    			}
-						    		}
+									Inventory inv = Bukkit.createInventory(null, InventoryType.PLAYER);
                                                                         if (AuthPlugin.firstLogon.contains(playername)) {
                                                                             //TODO: Add the items for first join
                                                                             if (AuthPlugin.config.GiveKit) {
@@ -119,12 +115,7 @@ public class CommandsExecutor implements CommandExecutor {
 						arrayData.add(1, player.getGameMode().name());
 						arrayData.add(2, Utils.InventoryToString(player.getInventory()));
 						player.teleport(player.getWorld().getSpawnLocation());
-						player.setGameMode(GameMode.CREATIVE);
-						for(ItemStack ie : player.getInventory().getContents()) {
-							if(ie != null) {
-								player.getInventory().removeItem(ie);
-							}
-						}
+						player.setGameMode(GameMode.SURVIVAL);
 						AuthPlugin.temp.put(player.getName(), arrayData);
 						player.sendMessage(AuthPlugin.messages.Messages_18);
 					}

@@ -26,12 +26,7 @@ public class SessionsTask implements Runnable {
 			arrayData.add(1, player.getGameMode().name());
 			arrayData.add(2, Utils.InventoryToString(player.getInventory()));
 			player.teleport(player.getWorld().getSpawnLocation());
-			player.setGameMode(GameMode.CREATIVE);
-			for(ItemStack ie : player.getInventory().getContents()) {
-				if(ie != null) {
-					player.getInventory().removeItem(ie);
-				}
-			}
+			player.setGameMode(GameMode.SURVIVAL);
 			AuthPlugin.temp.put(player.getName(), arrayData);
 		}
 		if(player.isOnline()) {

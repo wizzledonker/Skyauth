@@ -66,11 +66,6 @@ public class AuthPlugin extends JavaPlugin {
 				arrayData.add(2, Utils.InventoryToString(online.getInventory()));
 				online.teleport(online.getWorld().getSpawnLocation());
 				online.setGameMode(GameMode.CREATIVE);
-				for(ItemStack ie : online.getInventory().getContents()) {
-    				if(ie != null) {
-    					online.getInventory().removeItem(ie);
-    				}
-    			}
 				temp.put(online.getName(), arrayData);
 			}
 			for(Entry<String, ArrayList<String>> entry : temp.entrySet()) {
