@@ -47,6 +47,7 @@ public class CommandsExecutor implements CommandExecutor {
                             for (ItemStack item : Utils.getWrittenBooks(player, plugin)) {
                                 player.getInventory().addItem(item);
                             }
+                            player.sendMessage(ChatColor.GREEN + "You have been given the help books (in your inventory)");
                         }
 			if(cmd.getName().equalsIgnoreCase("login")) {
 				if(args.length == 1) {
